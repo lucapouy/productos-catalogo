@@ -1,108 +1,59 @@
-interface Producto {
-    id: number;
-    nombre: string;
-    categoria: string;
-    precio: number;
-    stock: number;
-}
-
-let productos: Producto[] = [];
-
-let formProducto = document.getElementById("formProducto") as HTMLFormElement;
-
-let nombre = document.getElementById("nombre") as HTMLInputElement;
-let categoria = document.getElementById("categoria") as HTMLInputElement;
-let precio = document.getElementById("precio") as HTMLInputElement;
-let stock = document.getElementById("stock") as HTMLInputElement;
-
-let buscarNombre = document.getElementById("buscarNombre") as HTMLInputElement;
-let buscarCategoria = document.getElementById("buscarCategoria") as HTMLInputElement;
-let buscarStock = document.getElementById("buscarStock") as HTMLInputElement;
-let buscarPrecio = document.getElementById("buscarPrecio") as HTMLInputElement;
-
-let listaProductos = document.getElementById("listaProductos") as HTMLDivElement;
-
-let cantidadProductos = document.getElementById("cantidadProductos") as HTMLParagraphElement;
-let cantidadStock = document.getElementById("cantidadStock") as HTMLParagraphElement;
-let valorInventario = document.getElementById("valorInventario") as HTMLParagraphElement;
-
-const mensaje = document.getElementById("Mensaje") as HTMLDialogElement;
-const cerrar = document.getElementById("Cerrar") as HTMLButtonElement;
-
-
+"use strict";
+let productos = [];
+let formProducto = document.getElementById("formProducto");
+let nombre = document.getElementById("nombre");
+let categoria = document.getElementById("categoria");
+let precio = document.getElementById("precio");
+let stock = document.getElementById("stock");
+let buscarNombre = document.getElementById("buscarNombre");
+let buscarCategoria = document.getElementById("buscarCategoria");
+let buscarStock = document.getElementById("buscarStock");
+let buscarPrecio = document.getElementById("buscarPrecio");
+let listaProductos = document.getElementById("listaProductos");
+let cantidadProductos = document.getElementById("cantidadProductos");
+let cantidadStock = document.getElementById("cantidadStock");
+let valorInventario = document.getElementById("valorInventario");
+const mensaje = document.getElementById("Mensaje");
+const cerrar = document.getElementById("Cerrar");
 // AGREGAR PRODUCTO
-formProducto.addEventListener("submit", function(evento) {
-
+formProducto.addEventListener("submit", function (evento) {
     evento.preventDefault();
-
-    let nuevoProducto: Producto = {
+    let nuevoProducto = {
         id: Date.now(),
         nombre: nombre.value,
         categoria: categoria.value,
         precio: Number(precio.value),
         stock: Number(stock.value)
     };
-
     productos.push(nuevoProducto);
-
     formProducto.reset();
-
     mostrarProductos();
     actualizarResumen();
-
     mensaje.showModal();
 });
-
-
 // MOSTRAR PRODUCTOS
-function mostrarProductos(): void {
-
+function mostrarProductos() {
     listaProductos.innerHTML = "";
-
-    let productosFiltrados = productos.filter(function(producto) {
-
-        let coincideNombre =
-            producto.nombre.toLowerCase().includes(
-                buscarNombre.value.toLowerCase()
-            );
-
-        let coincideCategoria =
-            producto.categoria.toLowerCase().includes(
-                buscarCategoria.value.toLowerCase()
-            );
-
-        let coincideStock =
-            buscarStock.value === "" ||
+    let productosFiltrados = productos.filter(function (producto) {
+        let coincideNombre = producto.nombre.toLowerCase().includes(buscarNombre.value.toLowerCase());
+        let coincideCategoria = producto.categoria.toLowerCase().includes(buscarCategoria.value.toLowerCase());
+        let coincideStock = buscarStock.value === "" ||
             producto.stock >= Number(buscarStock.value);
-
-        let coincidePrecio =
-            buscarPrecio.value === "" ||
+        let coincidePrecio = buscarPrecio.value === "" ||
             producto.precio <= Number(buscarPrecio.value);
-
-        return (
-            coincideNombre &&
+        return (coincideNombre &&
             coincideCategoria &&
             coincideStock &&
-            coincidePrecio
-        );
+            coincidePrecio);
     });
-
-
     if (productosFiltrados.length === 0) {
-
         listaProductos.innerHTML =
             '<p class="sin-productos">No se encontraron productos.</p>';
-
         return;
     }
-
-
-    productosFiltrados.forEach(function(producto) {
-
+    productosFiltrados.forEach(function (producto) {
         let divProducto = document.createElement("div");
-
         divProducto.className = "producto";
-
         divProducto.innerHTML = `
             <h3>${producto.nombre}</h3>
 
@@ -125,81 +76,48 @@ function mostrarProductos(): void {
                 Eliminar
             </button>
         `;
-
         listaProductos.appendChild(divProducto);
     });
 }
-
-
 // ELIMINAR PRODUCTO
-function eliminarProducto(id: number): void {
-
-    productos = productos.filter(function(producto) {
+function eliminarProducto(id) {
+    productos = productos.filter(function (producto) {
         return producto.id !== id;
     });
-
     mostrarProductos();
     actualizarResumen();
 }
-
-
 // ACTUALIZAR RESUMEN
-function actualizarResumen(): void {
-
+function actualizarResumen() {
     let totalProductos = productos.length;
-
     let totalStock = 0;
-
     let totalInventario = 0;
-
-
-    productos.forEach(function(producto) {
-
+    productos.forEach(function (producto) {
         totalStock += producto.stock;
-
         totalInventario += producto.precio * producto.stock;
-
     });
-
-
     cantidadProductos.textContent = totalProductos.toString();
-
     cantidadStock.textContent = totalStock.toString();
-
     valorInventario.textContent =
         "$" + totalInventario.toFixed(2);
 }
-
-
 // FILTROS
 buscarNombre.addEventListener("input", mostrarProductos);
-
 buscarCategoria.addEventListener("input", mostrarProductos);
-
 buscarStock.addEventListener("input", mostrarProductos);
-
 buscarPrecio.addEventListener("input", mostrarProductos);
-
-
 // MOSTRAR AL INICIAR
 mostrarProductos();
-
 actualizarResumen();
-
-
-const botonPrueba = document.querySelector<HTMLButtonElement>("#boton-prueba");
-const mensajePrueba = document.querySelector<HTMLParagraphElement>("#mensaje-prueba");
-
-
+const botonPrueba = document.querySelector("#boton-prueba");
+const mensajePrueba = document.querySelector("#mensaje-prueba");
 if (botonPrueba !== null && mensajePrueba !== null) {
     botonPrueba.addEventListener("click", () => {
         mensajePrueba.textContent = "¡La conexión funciona!";
     });
 }
-
-
 if (cerrar !== null && mensaje !== null) {
-    cerrar.addEventListener("click", (): void => {
+    cerrar.addEventListener("click", () => {
         mensaje.close();
     });
 }
