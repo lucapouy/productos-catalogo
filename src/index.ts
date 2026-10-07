@@ -203,3 +203,15 @@ if (cerrar !== null && mensaje !== null) {
         mensaje.close();
     });
 }
+
+//Buscador
+
+const buscador = document.querySelector<HTMLInputElement>("#buscarNombre");
+
+if (buscador !== null && mensajePrueba !== null) {
+    buscador.addEventListener("input", () => {
+      mensajePrueba.textContent = "Estás buscando: " + buscador.value;
+    });
+  }
+  
+  
