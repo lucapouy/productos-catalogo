@@ -6,6 +6,35 @@ interface Producto {
     stock: number;
 }
 
+const LiberNachos: Producto = {
+    id: 1,
+    nombre: "LiberNachos",
+    categoria: "Comida",
+    precio: 26000,
+    stock: 67
+};
+
+
+const PeroNachos: Producto = {
+    id: 2,
+    nombre: "PeroNachos",
+    categoria: "Comida",
+    precio: 2,
+    stock: 1
+};
+
+
+const ComuNachos: Producto = {
+    id: 3,
+    nombre: "ComuNachos",
+    categoria: "Comida",
+    precio: 90,
+    stock: 67
+};
+  
+  
+  
+
 let productos: Producto[] = [];
 
 let formProducto = document.getElementById("formProducto") as HTMLFormElement;
@@ -189,6 +218,8 @@ actualizarResumen();
 
 const botonPrueba = document.querySelector<HTMLButtonElement>("#boton-prueba");
 const mensajePrueba = document.querySelector<HTMLParagraphElement>("#mensaje-prueba");
+const buscador = document.querySelector<HTMLInputElement>("#buscarNombre");
+
 
 
 if (botonPrueba !== null && mensajePrueba !== null) {
@@ -206,7 +237,7 @@ if (cerrar !== null && mensaje !== null) {
 
 //Buscador
 
-const buscador = document.querySelector<HTMLInputElement>("#buscarNombre");
+
 
 if (buscador !== null && mensajePrueba !== null) {
     buscador.addEventListener("input", () => {

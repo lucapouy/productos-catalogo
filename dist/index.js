@@ -111,6 +111,7 @@ mostrarProductos();
 actualizarResumen();
 const botonPrueba = document.querySelector("#boton-prueba");
 const mensajePrueba = document.querySelector("#mensaje-prueba");
+const buscador = document.querySelector("#buscarNombre");
 if (botonPrueba !== null && mensajePrueba !== null) {
     botonPrueba.addEventListener("click", () => {
         mensajePrueba.textContent = "¡La conexión funciona!";
@@ -119,5 +120,11 @@ if (botonPrueba !== null && mensajePrueba !== null) {
 if (cerrar !== null && mensaje !== null) {
     cerrar.addEventListener("click", () => {
         mensaje.close();
+    });
+}
+//Buscador
+if (buscador !== null && mensajePrueba !== null) {
+    buscador.addEventListener("input", () => {
+        mensajePrueba.textContent = "Estás buscando: " + buscador.value;
     });
 }
